@@ -2,6 +2,10 @@
 
 General Rails skills. Assumes: derisk_common, derisk_ruby.
 
+## Architecture
+
+- [[app-lib-placement]] — own abstractions always live under app/lib/<abstraction>/, never a new top-level app/ directory.
+
 ## Authoring
 
 - [[authoring-models]] — thin ActiveRecord models.
