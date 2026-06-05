@@ -24,8 +24,6 @@ last_reviewed_at: 2026-06-03
 ---
 
 
-# common_agent_skills/derisk_rails/authoring-serializers/SKILL.md
-
 # Authoring JSON:API Serializers
 
 Serializers turn domain objects into JSON:API responses. They are declarative: type, id,

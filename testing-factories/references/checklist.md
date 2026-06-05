@@ -1,6 +1,3 @@
-# common_agent_skills/derisk_rails/testing-factories/references/checklist.md
-
-
 # Review Checklist — Factories
 
 - [ ] `# frozen_string_literal: true` then `FactoryBot.define do … end`.

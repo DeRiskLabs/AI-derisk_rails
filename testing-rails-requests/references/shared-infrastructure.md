@@ -1,6 +1,3 @@
-# common_agent_skills/derisk_rails/testing-rails-requests/references/shared-infrastructure.md
-
-
 # Building the Shared Contexts and Shared Examples
 
 The request-spec discipline depends on shared infrastructure under `spec/support/`

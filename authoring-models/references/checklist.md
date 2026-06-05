@@ -1,6 +1,3 @@
-# common_agent_skills/derisk_rails/authoring-models/references/checklist.md
-
-
 # Authoring Checklist — Models
 
 - [ ] `# frozen_string_literal: true`; inherits `ApplicationRecord`.

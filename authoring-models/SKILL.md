@@ -24,9 +24,6 @@ last_reviewed_at: 2026-06-03
 ---
 
 
-# common_agent_skills/derisk_rails/authoring-models/SKILL.md
-
-
 # Authoring ActiveRecord Models
 
 Models are **thin**: they primarily dictate **validations and associations**. Behaviour —

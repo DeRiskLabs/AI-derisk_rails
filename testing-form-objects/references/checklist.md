@@ -1,6 +1,3 @@
-# common_agent_skills/derisk_rails/testing-form-objects/references/checklist.md
-
-
 # Review Checklist — Form Object Specs
 
 

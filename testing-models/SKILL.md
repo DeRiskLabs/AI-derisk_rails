@@ -27,9 +27,6 @@ last_reviewed_at: 2026-06-03
 ---
 
 
-# common_agent_skills/derisk_rails/testing-models/SKILL.md
-
-
 # Testing ActiveRecord Models
 
 Use this skill for `type: :model` specs of ActiveRecord models.

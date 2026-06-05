@@ -1,6 +1,3 @@
-# common_agent_skills/derisk_rails/authoring-serializers/references/annotated-example.md
-
-
 # Annotated Example — JSON:API Serializers
 
 Neutral domain: a base serializer, a `ProfileSerializer`, and the error serializer.

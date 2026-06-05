@@ -27,9 +27,6 @@ last_reviewed_at: 2026-06-03
 ---
 
 
-# common_agent_skills/derisk_rails/testing-rails-requests/SKILL.md
-
-
 # Testing Rails Request Specs
 
 Use this skill for request specs (`type: :request`) that exercise real HTTP endpoints

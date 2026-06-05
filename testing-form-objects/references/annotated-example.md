@@ -1,6 +1,3 @@
-# common_agent_skills/derisk_rails/testing-form-objects/references/annotated-example.md
-
-
 # Annotated Example — Form Object Spec
 
 Neutral domain: `Forms::Orders::CreateForm` — validates order params and builds the order plus

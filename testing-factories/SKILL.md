@@ -24,9 +24,6 @@ last_reviewed_at: 2026-06-03
 ---
 
 
-# common_agent_skills/derisk_rails/testing-factories/SKILL.md
-
-
 # Authoring FactoryBot Factories
 
 Factories provide the test data the rest of the suite builds on. One file per model under

@@ -1,6 +1,3 @@
-# common_agent_skills/derisk_rails/authoring-serializers/references/checklist.md
-
-
 # Authoring Checklist — Serializers
 
 - [ ] Lives at `apis/v1/app/serializers/v1/<resource>_serializer.rb`.

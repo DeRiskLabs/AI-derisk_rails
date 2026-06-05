@@ -25,9 +25,6 @@ last_reviewed_at: 2026-06-03
 ---
 
 
-# common_agent_skills/derisk_rails/testing-form-objects/SKILL.md
-
-
 # Testing Form Objects
 
 Form objects (`Forms::*`) are `ActiveModel::Model` classes that validate incoming params and

@@ -1,6 +1,3 @@
-# common_agent_skills/derisk_rails/authoring-models/references/annotated-example.md
-
-
 # Annotated Example — Model
 
 Neutral domain: `Subscription`. A thin model showing everything a model is allowed to

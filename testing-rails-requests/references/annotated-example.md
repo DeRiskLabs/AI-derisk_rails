@@ -1,6 +1,3 @@
-# common_agent_skills/derisk_rails/testing-rails-requests/references/annotated-example.md
-
-
 # Annotated Examples — Request Specs
 
 Two complete request specs, annotated: an HTML/session endpoint and a JSON:API endpoint.

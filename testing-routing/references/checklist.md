@@ -1,6 +1,3 @@
-# common_agent_skills/derisk_rails/testing-routing/references/checklist.md
-
-
 # Review Checklist — Routing Specs
 
 - [ ] `require 'rails_helper'`; `RSpec.describe TheController, type: :routing` (controller

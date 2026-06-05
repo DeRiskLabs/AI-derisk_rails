@@ -1,6 +1,3 @@
-# common_agent_skills/derisk_rails/testing-routing/references/annotated-example.md
-
-
 # Annotated Example — Routing Specs
 
 Neutral domain: an `articles` resource exposing only index/show plus a publish action,

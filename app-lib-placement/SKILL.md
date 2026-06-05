@@ -23,9 +23,6 @@ last_reviewed_at: 2026-06-04
 ---
 
 
-# common_agent_skills/derisk_rails/app-lib-placement/SKILL.md
-
-
 # Custom Abstraction Placement (app/lib)
 
 Rails gives its own abstractions homes (`app/models`, `app/controllers`, `app/jobs`, ...).

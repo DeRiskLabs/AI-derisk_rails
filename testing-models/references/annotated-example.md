@@ -1,6 +1,3 @@
-# common_agent_skills/derisk_rails/testing-models/references/annotated-example.md
-
-
 # Annotated Example — Model Spec
 
 Neutral domain: `Subscription`. The spec covers **everything the model file declares** —

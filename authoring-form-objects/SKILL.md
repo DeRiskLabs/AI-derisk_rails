@@ -24,9 +24,6 @@ last_reviewed_at: 2026-06-03
 ---
 
 
-# common_agent_skills/derisk_rails/authoring-form-objects/SKILL.md
-
-
 # Authoring Form Objects
 
 A form object is an `ActiveModel::Model` that **validates incoming params and builds the

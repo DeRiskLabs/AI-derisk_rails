@@ -1,6 +1,3 @@
-# common_agent_skills/derisk_rails/testing-factories/references/annotated-example.md
-
-
 # Annotated Example — Factory with Traits
 
 Neutral domain: a `subscription` factory. Annotated.

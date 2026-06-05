@@ -23,9 +23,6 @@ last_reviewed_at: 2026-06-03
 ---
 
 
-# common_agent_skills/derisk_rails/testing-routing/SKILL.md
-
-
 # Testing Routes
 
 Use this skill for `type: :routing` specs. They assert the router maps a path+verb to the

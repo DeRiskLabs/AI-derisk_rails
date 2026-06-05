@@ -1,6 +1,3 @@
-# common_agent_skills/derisk_rails/testing-models/references/checklist.md
-
-
 # Review Checklist — Model Specs
 
 

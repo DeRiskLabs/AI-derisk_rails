@@ -1,6 +1,3 @@
-# common_agent_skills/derisk_rails/authoring-form-objects/references/checklist.md
-
-
 # Authoring Checklist — Form Objects
 
 
