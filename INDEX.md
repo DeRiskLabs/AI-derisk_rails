@@ -4,6 +4,7 @@ General Rails skills. Assumes: derisk_common, derisk_ruby.
 
 ## Architecture
 
+- [[prefer-component-architecture]] — the default stance: modular monolith of bounded contexts (components, engines, apis); Rails kept free of business logic.
 - [[app-lib-placement]] — own abstractions always live under app/lib/<abstraction>/, never a new top-level app/ directory.
 
 ## Authoring
