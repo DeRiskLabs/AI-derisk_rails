@@ -1,10 +1,10 @@
 ---
 name: app-lib-placement
 title: Custom Abstraction Placement (app/lib)
-description: Where your own non-Rails abstractions live - always under app/lib/<abstraction>/, never a new top-level app/<abstraction>/ directory. Use when adding a kind of object Rails gives no home (layer objects, service-like objects, POROs) or creating directories under app/.
+description: Placement rule for custom Rails-app Ruby abstractions - put your own non-Rails objects under app/lib/<abstraction>/, never a new top-level app/<abstraction>/ directory. Use after deciding a boundary belongs inside the Rails app or engine rather than in a component, engine, or service.
 category: architecture
 status: active
-version: 1.0
+version: 1.1
 applies_to:
   - Ruby
   - Rails
@@ -16,14 +16,20 @@ triggers:
   - create a directory under app
   - app/lib placement
   - where to put poros
+  - where to put use cases
 anti_triggers:
   - Rails-given types (models, controllers, jobs, mailers)
+  - deciding whether to extract a component, engine, or service
 user_invocable: true
-last_reviewed_at: 2026-06-04
+last_reviewed_at: "2026-06-27"
 ---
 
 
 # Custom Abstraction Placement (app/lib)
+
+This is a placement skill, not the whole architecture. Use
+[[prefer-component-architecture]] when deciding whether the boundary belongs in the
+Rails app, a component, an engine, or a service.
 
 Rails gives its own abstractions homes (`app/models`, `app/controllers`, `app/jobs`, ...).
 Abstractions of your own — any kind of object Rails does not define — always live under
@@ -58,6 +64,8 @@ top-level `lib/`, which is not on the autoload paths by default.
 - Never invent a new top-level `app/<abstraction>/` directory for your own abstractions.
 - Name the namespace after the abstraction, plural (`UseCases`, `Queries`, `Forms`).
 - Rails-given types stay in their Rails-given homes; do not move them into `app/lib`.
+- `app/lib` is not a junk drawer. Objects placed there still need clear ownership,
+  public interfaces, and tests through those interfaces.
 
 
 ## Avoid

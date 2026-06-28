@@ -31,8 +31,8 @@ again here.
 ## Required Reading
 
 ```text
-common_agent_skills/derisk_ruby/ruby-testing/SKILL.md
-common_agent_skills/derisk_ruby/always-execute-rspec/SKILL.md
+[[ruby-testing]]
+[[always-execute-rspec]]
 ```
 
 

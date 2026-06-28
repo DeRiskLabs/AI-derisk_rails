@@ -46,9 +46,9 @@ Some slow tests are necessary; unnecessary ones are waste.
 ## Required Reading
 
 ```text
-common_agent_skills/derisk_ruby/ruby-testing/SKILL.md
-common_agent_skills/derisk_ruby/always-execute-rspec/SKILL.md
-common_agent_skills/derisk_rails/testing-factories/SKILL.md
+[[ruby-testing]]
+[[always-execute-rspec]]
+[[testing-factories]]
 ```
 
 Supporting references in this skill:

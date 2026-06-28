@@ -33,7 +33,7 @@ Factories provide the test data the rest of the suite builds on. One file per mo
 ## Required Reading
 
 ```text
-common_agent_skills/derisk_ruby/ruby-testing/SKILL.md
+[[ruby-testing]]
 ```
 
 Supporting references in this skill:

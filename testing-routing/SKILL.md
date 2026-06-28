@@ -33,7 +33,7 @@ are absent. They do not exercise controllers — that is [[testing-rails-request
 ## Required Reading
 
 ```text
-common_agent_skills/derisk_ruby/ruby-testing/SKILL.md
+[[ruby-testing]]
 ```
 
 Supporting references in this skill:
