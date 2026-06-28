@@ -8,6 +8,10 @@ General Rails skills. Assumes: derisk_common, derisk_foundations, derisk_ruby.
 - [[app-lib-placement]] — own Rails-app abstractions live under app/lib/<abstraction>/, not new top-level app/ directories.
 - [[framework-edge-adapters]] — Rails framework classes translate input/output and delegate to public boundaries.
 
+## Views & Assets
+
+- [[no-inline-javascript]] — JS never lives in a view: no inline `<script>`, no Slim `javascript:` filter, no `on*=` handlers, no server data interpolated into a script. All JS in the Propshaft pipeline; data via `data-` attrs / a JSON island; behaviour via `addEventListener`; third-party libs vendored, not CDN. REQUIRED.
+
 ## Authoring
 
 - [[authoring-models]] — thin ActiveRecord models.
