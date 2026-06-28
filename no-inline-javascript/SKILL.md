@@ -1,14 +1,13 @@
 ---
 name: no-inline-javascript
-title: No Inline JavaScript — All JS Through the Asset Pipeline
-description: JavaScript never lives in a view. No inline <script> blocks, no Slim javascript: filter blocks, no on*= handler attributes, no server data interpolated into a <script>. All JS lives in structured files in the Rails asset pipeline (Propshaft), reads server data from data- attributes or a JSON island, and binds behaviour with addEventListener. Use whenever a view needs behaviour, a page needs a script, or a third-party JS library is involved.
+title: "No Inline JavaScript — Use Rails Assets"
+description: "JavaScript never lives in a view. No inline <script> blocks, no Slim javascript: filter blocks, no on*= handler attributes, no server data interpolated into a <script>. Use the app's Rails asset convention, pass server data through DOM-safe channels, and vendor third-party libraries instead of loading them from a CDN."
 category: authoring
 status: active
 version: 1.0
 applies_to:
   - Rails
   - JavaScript
-  - Propshaft
   - Slim
 priority: REQUIRED
 triggers:
@@ -42,85 +41,103 @@ Banned, with no exceptions:
   (`const X = <%= raw @json %>`),
 - third-party libraries pulled from a CDN (`<script src="https://…">`).
 
-**Why:** with all JS in one place we can refactor it, keep it tidy, lint/test it, fingerprint
-and cache it, and reason about it. Inline JS is unrefactorable, untestable, uncacheable, and
-duplicated across views. (See the platform's [[app-lib-placement]] instinct: own code lives
-in a known structured home, never scattered.)
+**Why:** with all JS in one place we can refactor it, keep it tidy, lint/test it,
+fingerprint and cache it, and reason about it. Inline JS is unrefactorable,
+untestable, uncacheable, and duplicated across views.
 
 
 ## Where JS lives
 
-Mirror the CSS pipeline. The container has a `lib/css_builder.rb` + `css:build` rake hooked
-into `assets:precompile`, with convention-based bundle discovery and Propshaft fingerprinting.
-JS uses the **same shape**:
+Use the app's established Rails asset convention. Do not invent a second JavaScript
+pipeline for one page.
 
-- Container JS under `app/assets/javascripts/` (or the project's established JS root);
-  per-engine JS under that engine's `app/assets/javascripts/<engine>/`.
-- One bundle per delivery surface, referenced with `javascript_include_tag` (digested by
-  Propshaft) — **never** a hardcoded `<script src="/javascript/…">` to a raw `public/` file.
-- Third-party libraries are **vendored into the pipeline**, not loaded from a CDN — this
-  keeps the open-source-first, swappable-dependency posture and avoids a runtime external
-  dependency.
+- If the app uses importmap, add modules/controllers to the importmap-managed structure.
+- If the app uses Stimulus, put behavior in Stimulus controllers.
+- If the app uses jsbundling, Propshaft, or Sprockets directly, follow that structure.
+- If `project_context/agent_skills/` defines a local asset convention, follow it.
+- Do not hardcode raw `public/` script paths from templates.
+- Vendor third-party libraries through the project's asset mechanism; do not load them
+  from a CDN unless the project explicitly allows it.
 
 
 ## Passing server data to JS
 
 The reason inline JS is tempting is that JS often needs server data or route URLs. Hand it
-over through the DOM, not through string interpolation in a `<script>`:
+over through the DOM, not through string interpolation in a `<script>`.
+
+- Small scalars / route URLs -> `data-` attributes, or Stimulus values when Stimulus is
+  the app convention.
+- Structured blobs -> a `<script type="application/json">` island read via `textContent`
+  (this is data, not executable JS).
+- Route templates that need an id -> emit a `...-url-template` value with a placeholder
+  and replace it in the asset file.
 
 ```slim
-/ a JSON island for structured data
-#workflow-editor data-steps-url=editor_steps_path
-                 data-validate-url=editor_validate_path
+#workflow-editor data-controller="workflow-editor"
+                 data-workflow-editor-steps-url-value=editor_steps_path
   script#editor-graph-data type="application/json"
     = raw @graph_json
 ```
 
 ```javascript
-// app/assets/javascripts/workflow_builder/editor.js
-const root  = document.getElementById("workflow-editor");
-const graph = JSON.parse(document.getElementById("editor-graph-data").textContent);
-const stepsUrl = root.dataset.stepsUrl;
+// app/javascript/workflow_builder/controllers/workflow_editor_controller.js
+import { Controller } from "@hotwired/stimulus"
+export default class extends Controller {
+  static values = { stepsUrl: String }
+  connect() {
+    const graph = JSON.parse(document.getElementById("editor-graph-data").textContent)
+    // this.stepsUrlValue is available
+  }
+}
 ```
-
-- Small scalars / route URLs → `data-` attributes on a root element.
-- Structured blobs → a `<script type="application/json">` island read via `textContent`
-  (note: `application/json` is data, not executable JS — it is not an inline script).
-- Route templates that need an id → emit a `data-…-url-template` with a `__ID__`
-  placeholder and `.replace()` in JS, exactly as before — just sourced from the DOM.
 
 
 ## Binding behaviour
 
-No `on*=` attributes. Bind in the pipeline file:
+No `on*=` attributes. Bind behavior from an asset file using the app's convention. If the
+app uses Stimulus, bind with `data-action`:
 
 ```slim
-button.btn#btn-validate type="button" = t("…validate")
+button.btn data-action="code-editor#validate" = t("…validate")
 ```
 
 ```javascript
-document.getElementById("btn-validate")
-        ?.addEventListener("click", submitValidate);
+// app/javascript/code_studio/controllers/code_editor_controller.js
+import { Controller } from "@hotwired/stimulus"
+export default class extends Controller {
+  validate() { /* … */ }
+}
 ```
 
-For shared behaviour (e.g. flash dismissal), expose one module method and bind by class —
-do not sprinkle `onclick="dismissFlash(this)"` across every layout:
+For shared behavior, bind once through the project convention. Do not sprinkle
+`onclick="dismissFlash(this)"` across templates:
+
+```slim
+.page-alert data-controller="flash"
+  button.page-alert__dismiss-button data-action="flash#dismiss"
+```
 
 ```javascript
-document.querySelectorAll(".page-alert__dismiss-button")
-        .forEach((b) => b.addEventListener("click", () =>
-          b.closest(".page-alert")?.remove()));
+// app/javascript/controllers/flash_controller.js
+import { Controller } from "@hotwired/stimulus"
+export default class extends Controller {
+  dismiss() { this.element.remove() }
+}
 ```
+
+Where a project has no Stimulus or equivalent convention, use a Rails-managed asset file
+that binds with `addEventListener` keyed off ids, semantic classes, or `data-` hooks.
 
 
 ## Checklist before a view is done
 
-- [ ] No `<script>` with inline body in the view (only `javascript_include_tag` / a JSON island).
+- [ ] No `<script>` with executable inline body in the view.
 - [ ] No `javascript:` Slim filter.
 - [ ] No `on*=` attributes.
 - [ ] No ERB/Slim interpolation inside a `<script>`.
-- [ ] All third-party JS vendored through the pipeline, not a CDN.
-- [ ] Server data reaches JS via `data-` attributes / a JSON island read from the DOM.
+- [ ] JS lives in the app's Rails asset structure.
+- [ ] Third-party JS is vendored through the app's asset mechanism, not loaded from CDN.
+- [ ] Server data reaches JS through `data-` attributes, Stimulus values, or a JSON island.
 
 Pairs with [[authoring-presenters]] (view-language output) and the asset-pipeline styling
 foundation (CSS side of the same rule).

@@ -10,7 +10,7 @@ General Rails skills. Assumes: derisk_common, derisk_foundations, derisk_ruby.
 
 ## Views & Assets
 
-- [[no-inline-javascript]] — JS never lives in a view: no inline `<script>`, no Slim `javascript:` filter, no `on*=` handlers, no server data interpolated into a script. All JS in the Propshaft pipeline; data via `data-` attrs / a JSON island; behaviour via `addEventListener`; third-party libs vendored, not CDN. REQUIRED.
+- [[no-inline-javascript]] — JS never lives in a view: no inline `<script>`, no Slim `javascript:` filter, no `on*=` handlers, no server data interpolated into a script. Use the app's Rails asset convention; pass server data through DOM-safe channels; vendor third-party libraries instead of loading from CDN. REQUIRED.
 
 ## Authoring
 
