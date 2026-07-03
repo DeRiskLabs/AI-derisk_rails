@@ -21,7 +21,7 @@ anti_triggers:
   - pure server-rendered view with no behaviour
   - non-Rails Ruby work
 user_invocable: true
-last_reviewed_at: 2026-06-28
+last_reviewed_at: "2026-06-28"
 ---
 
 

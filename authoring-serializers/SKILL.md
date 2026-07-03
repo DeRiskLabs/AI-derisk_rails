@@ -2,7 +2,7 @@
 name: authoring-serializers
 title: Authoring JSON:API Serializers
 description: How to write JSON:API serializers (jsonapi-serializer) with a shared base, uuid ids, attributes, relationships, and standard includes. Use when adding or changing files under an apis/* engine's serializers.
-category: architecture
+category: authoring
 status: active
 version: 1.1
 applies_to:
@@ -20,7 +20,7 @@ anti_triggers:
   - model logic
   - graphql type
 user_invocable: true
-last_reviewed_at: 2026-06-03
+last_reviewed_at: "2026-06-03"
 ---
 
 

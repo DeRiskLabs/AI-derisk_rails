@@ -2,7 +2,7 @@
 name: authoring-validators
 title: Authoring Validators
 description: Custom ActiveModel validators - small, single-format EachValidators in app/validators, shared vocabulary across forms and models, I18n messages. Use when extracting or writing a reusable validation.
-category: architecture
+category: authoring
 status: active
 version: 1.0
 applies_to:
@@ -16,7 +16,7 @@ triggers:
 anti_triggers:
   - inline validates declarations that need no extraction
 user_invocable: true
-last_reviewed_at: 2026-06-06
+last_reviewed_at: "2026-06-06"
 ---
 
 

@@ -2,7 +2,7 @@
 name: authoring-form-objects
 title: Authoring Form Objects
 description: How to write a form object - an ActiveModel::Model class that validates incoming params, curates error messages, duck-types as a model, and builds the domain objects a use case will persist. Use when adding or changing classes under app/lib/forms.
-category: architecture
+category: authoring
 status: active
 version: 1.1
 applies_to:
@@ -20,7 +20,7 @@ anti_triggers:
   - user story
   - query object
 user_invocable: true
-last_reviewed_at: 2026-06-03
+last_reviewed_at: "2026-06-03"
 ---
 
 

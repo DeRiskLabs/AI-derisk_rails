@@ -19,7 +19,7 @@ anti_triggers:
   - request spec
   - controller behaviour spec
 user_invocable: true
-last_reviewed_at: 2026-06-03
+last_reviewed_at: "2026-06-03"
 ---
 
 

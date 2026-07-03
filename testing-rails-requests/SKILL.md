@@ -1,10 +1,10 @@
 ---
 name: testing-rails-requests
 title: Testing Rails Request Specs
-description: Spec pattern for Rails request specs driving HTTP endpoints - HTML/session endpoints (response, session, flash, redirects) and JSON:API endpoints (document params, auth headers, whole-shape assertions). Use when writing or modifying specs under spec/requests.
+description: Spec pattern for Rails request specs driving HTTP endpoints - HTML/session endpoints (response, session, flash, redirects) and JSON:API endpoints (document params, auth headers, whole-shape assertions). Canonical home of the acceptance-test layer (spec/acceptance, no mocks, real DB) and the shared-fake/contract-test drift defense. Use when writing or modifying specs under spec/requests or spec/acceptance.
 category: testing
 status: active
-version: 1.1
+version: 1.2
 applies_to:
   - Ruby
   - Rails
@@ -18,12 +18,15 @@ triggers:
   - http get post patch delete spec
   - assert response status redirect flash session
   - json api request spec
+  - acceptance test
+  - spec/acceptance
+  - contract test engine fakes
 anti_triggers:
   - use case spec
   - model spec
   - graphql acceptance spec
 user_invocable: true
-last_reviewed_at: 2026-06-03
+last_reviewed_at: "2026-06-03"
 ---
 
 
@@ -224,7 +227,7 @@ context and its own examples.
 
 When asserting a side effect that requires wrapping the action (count change, raise), use a
 block matcher and call the verb inside the expectation (the delta-assertion exception in
-always-execute-rspec):
+[[always-execute-rspec]]):
 
 ```ruby
 it 'creates an article record' do
@@ -234,6 +237,104 @@ end
 ```
 
 Otherwise keep the verb in `execute` and assert on the response.
+
+
+## Acceptance Tests — the End-to-End Backstop
+
+This is the canonical definition of the **acceptance-test layer** for the whole layered
+testing doctrine. When the **derisk_layers** collection is installed, its GraphQL,
+use-case, user-story, and engine testing/authoring skills build on this definition.
+
+An acceptance test lives in the **container** at `spec/acceptance/`. It is `type: :request`
+mechanically, but it is named and located distinctly as *acceptance* so its role is
+unmistakable:
+
+- **No mocks.** No registry fakes, no stubbed collaborators, no doubled models.
+- **Real bindings.** The real engine is mounted with its real registry bindings (the
+  container's actual `config/initializers/<engine>.rb` wiring), against the container's
+  real use cases and query objects.
+- **Real database.** Records are built with `FactoryBot`, persisted, and read back.
+
+It is the **only** place the whole stack runs end-to-end, and therefore the **sole proof of
+real persistence and real wiring**. Every fast layer above it (engine request specs, use
+case and user story specs) is schema-less and message-passing; none of them prove a row was
+written or that the container bound the right constant. The acceptance layer does, and it is
+**non-negotiable — not a nice-to-have**. A feature is not done until an acceptance test
+drives it end-to-end through the real stack.
+
+For an **API or GraphQL** engine, an acceptance test sends a JSON payload over HTTP and
+asserts on the response document — status plus the serialized payload:
+
+```ruby
+# spec/acceptance/articles_spec.rb (container)
+require 'rails_helper'
+
+RSpec.describe 'Articles API', type: :request do   # located under spec/acceptance
+  include_context 'with api authentication'         # real OAuth token, not a stub
+
+  let(:parsed_response) { JSON.parse(response.body) }
+
+  describe 'POST /api/articles' do
+    execute do
+      post '/api/articles', params: valid_params.to_json, headers: authenticated_headers
+    end
+
+    it 'persists the article' do
+      expect { post '/api/articles', params: valid_params.to_json, headers: authenticated_headers }
+        .to change(Article, :count).by(1)               # real DB, real persistence
+    end
+
+    it 'returns the expected response document' do
+      expect(parsed_response).to eq(expected_response)  # real serializer, real wiring
+    end
+  end
+end
+```
+
+The GraphQL counterpart, when using the Layers gem, is the derisk_layers collection's
+`testing-graphql` — those specs already live under `spec/acceptance/graph` and are the
+GraphQL acceptance layer; the definition above is what they are an instance of.
+
+
+## Shared Fakes and Contract Tests — the Drift Defense
+
+The fast layers above lean on doubles. To keep those doubles honest across the engine seam,
+the doctrine is **consumer-driven contract testing done in-process**:
+
+- **Engines ship their own mocks/stubs** as part of the engine package and use them in their
+  own isolated, schema-less request/story specs. The engine is the consumer declaring the
+  interface it expects of the container.
+- **Engines expose those fakes to the container's test suite** as an importable test-support
+  module, so the engine and the container load the **same** double — shared identity of the
+  fake is the whole point.
+- **The container owns the contract tests.** Only the container has the real collaborators
+  and the real schema, so it is the container's suite that runs the engine-shipped fakes
+  against the real objects. Because both sides use the same shipped double, the contract test
+  is meaningful.
+- **Drift fails the container suite fast and hard.** If a fake diverges from the real
+  interface or behaviour, the container's contract tests break immediately — cheaply, at the
+  seam, before the slower acceptance layer ever runs.
+
+This is a **two-layer defense**: contract tests catch fake-vs-real drift at each shared seam;
+acceptance tests catch integration, wiring, and persistence drift end-to-end. Together they
+are why the mockist unit style above (`have_received(:save!)`, injected-model doubles,
+registry fakes) is *sanctioned*, not coupling to remove — the shared fake is contract-tested
+and the acceptance layer backs it.
+
+Scope: contract tests are for the **shared, reused** fakes only. A one-off `instance_spy` or
+`instance_double` used in a single spec does not need one.
+
+**The auth stub.** The most common shared fake is authentication. Its interface is
+`current_authorization` — the security credential the endpoint authorizes against (in a
+Layers install, the derisk_layers `api-authentication-authorization` skill owns this).
+The engine ships a stub credential (what its stories treat as the authenticated actor); the
+container contract-tests that stub against a real credential so the two never drift.
+
+> **Open question (implementation mechanism).** *How* an engine exposes its fakes to the
+> container is unsettled — likely a support module the container loads with
+> `require '<engine>/testing'`, declared in the engine gemspec, so both sides constantize the
+> same double. The doctrine requires shared identity of the fake, not any specific packaging;
+> resolve the mechanism when it is built (a generator/scaffold need is out of scope here).
 
 
 ## Avoid

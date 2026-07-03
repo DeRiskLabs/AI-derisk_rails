@@ -23,7 +23,7 @@ anti_triggers:
   - request spec
   - form object spec
 user_invocable: true
-last_reviewed_at: 2026-06-03
+last_reviewed_at: "2026-06-03"
 ---
 
 
@@ -157,7 +157,7 @@ end
 ## Change Matchers
 
 For "does it change X" use a `change` block matcher (the action runs inside the
-expectation — see the delta-assertion exception in always-execute-rspec):
+expectation — see the delta-assertion exception in [[always-execute-rspec]]):
 
 ```ruby
 it 'generates a new verification code' do

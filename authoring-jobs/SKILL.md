@@ -2,7 +2,7 @@
 name: authoring-jobs
 title: Authoring Jobs
 description: Background jobs as thin async delivery adapters - a job defers a public command or performs one delivery side effect, and holds no business logic. Use when adding or changing classes under app/jobs.
-category: architecture
+category: authoring
 status: active
 version: 1.0
 applies_to:
@@ -18,7 +18,7 @@ anti_triggers:
   - the use case the job calls
   - queue infrastructure configuration
 user_invocable: true
-last_reviewed_at: 2026-06-06
+last_reviewed_at: "2026-06-06"
 ---
 
 

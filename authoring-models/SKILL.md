@@ -2,7 +2,7 @@
 name: authoring-models
 title: Authoring ActiveRecord Models
 description: How to write thin ActiveRecord models - associations, validations, gem macros, defaults, status declarations, simple scopes, and the public-API uuid rule - keeping behaviour in use cases, forms, and query objects. Use when adding or changing files under app/models.
-category: architecture
+category: authoring
 status: active
 version: 1.1
 applies_to:
@@ -20,7 +20,7 @@ anti_triggers:
   - query object
   - form object
 user_invocable: true
-last_reviewed_at: 2026-06-03
+last_reviewed_at: "2026-06-03"
 ---
 
 

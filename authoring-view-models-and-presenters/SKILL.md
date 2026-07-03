@@ -33,23 +33,23 @@ Use this skill to decide which side owns a display concern. Read
 [[authoring-view-models]] for Rails view-model rules. Use [[authoring-presenters]] for
 presenter implementation details and its worked references.
 
-- **View models** talk the language of the model/domain. They expose view-ready data
-  without making the template know ActiveRecord internals.
-- **Presenters** talk the language of the view. They handle labels, formatting,
-  conditional display, links, badges, CSS state names, empty states, and helper use.
+## Decide
 
-Controllers expose view models to templates, not raw model objects. The template
-presents the view model for its context.
+Route the display concern with this table. Then build with the linked skill.
 
+| The template needs… | Use | Build with |
+|---|---|---|
+| only simple field reads and straightforward markup | nothing new — plain Slim | — |
+| a stable, shaped display contract in model/domain language (normalized shape, derived values, predicates) | a **view model** | [[authoring-view-models]] |
+| view-language behaviour on that data — labels, links, badges, formatting, CSS state names, empty states, helper-backed markup | a **presenter** wrapping the view model | [[authoring-presenters]] |
+| both a shaped contract *and* view-language behaviour | a **view model + presenter** | both of the above |
 
-## Use Only When Needed
+Rule of thumb: view models talk the language of the model/domain; presenters talk the language
+of the view. Add each only when the template's real complexity earns it — never just because a
+page exists.
 
-Do not add a view model or presenter just because a page exists.
-
-Use plain Slim with existing objects when the template only reads simple fields and
-renders straightforward markup. Add a view model when the template needs a shaped
-display contract. Add a presenter when the shaped data needs view-language behavior:
-helpers, links, labels, badges, formatting, empty states, or CSS state names.
+Controllers expose view models to templates, not raw model objects. The template presents the
+view model for its context.
 
 
 ## Placement

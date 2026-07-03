@@ -2,7 +2,7 @@
 name: authoring-rake-tasks
 title: Authoring Rake Tasks
 description: Rake tasks as delivery adapters - parse input, send one public command, report the outcome; no business logic in tasks. Use when adding or changing tasks under lib/tasks.
-category: architecture
+category: authoring
 status: active
 version: 1.0
 applies_to:
@@ -17,7 +17,7 @@ triggers:
 anti_triggers:
   - the use case the task calls
 user_invocable: true
-last_reviewed_at: 2026-06-06
+last_reviewed_at: "2026-06-06"
 ---
 
 

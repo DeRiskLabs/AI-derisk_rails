@@ -37,12 +37,13 @@ language of the view. The shape is:
 model/domain object -> view model -> presenter -> Slim template
 ```
 
-View models answer model/domain-language questions. Presenters answer view-language
-questions: labels, links, badges, formatted strings, helper-backed markup, CSS state
-names, and empty states.
+Presenters answer view-language questions: labels, links, badges, formatted strings,
+helper-backed markup, CSS state names, and empty states. For deciding *whether* a concern
+belongs in a presenter, a view model, both, or neither, see
+[[authoring-view-models-and-presenters]] — this skill covers how to build the presenter once
+that decision is made.
 
-Read [[authoring-view-models]], [[authoring-view-models-and-presenters]],
-[[authoring-rails-views]], and [[authoring-user-facing-copy]].
+Read [[authoring-view-models]], [[authoring-rails-views]], and [[authoring-user-facing-copy]].
 
 Supporting references:
 

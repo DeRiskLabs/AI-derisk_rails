@@ -2,7 +2,7 @@
 name: authoring-mailers
 title: Authoring Mailers
 description: Mailers as thin delivery adapters - params in, mail out, I18n subjects, dispatched from jobs; no business logic and no data fetching in mailers. Use when adding or changing mailers.
-category: architecture
+category: authoring
 status: active
 version: 1.0
 applies_to:
@@ -16,7 +16,7 @@ triggers:
 anti_triggers:
   - the use case or observer that triggers the email
 user_invocable: true
-last_reviewed_at: 2026-06-06
+last_reviewed_at: "2026-06-06"
 ---
 
 
