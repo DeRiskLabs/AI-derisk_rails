@@ -4,7 +4,7 @@ title: Authoring Form Objects
 description: How to write a form object - an ActiveModel::Model class that validates incoming params, curates error messages, duck-types as a model, and builds the domain objects a use case will persist. Use when adding or changing classes under app/lib/forms.
 category: authoring
 status: active
-version: 1.1
+version: 1.2
 applies_to:
   - Ruby
   - Rails
@@ -20,7 +20,7 @@ anti_triggers:
   - user story
   - query object
 user_invocable: true
-last_reviewed_at: "2026-06-03"
+last_reviewed_at: "2026-10-01"
 ---
 
 
@@ -29,6 +29,20 @@ last_reviewed_at: "2026-06-03"
 A form object is an `ActiveModel::Model` that **validates incoming params and builds the
 domain objects** a use case will persist. It is the validation boundary: a use case takes a
 form (`required :form`) and trusts `valid?`.
+
+
+## Confirm It Is a Form
+
+Classify the object before inheriting a form base:
+
+- **form** — accepts operation input, owns its validation gate, and builds values;
+- **imported document model** — represents a parsed document and may include
+  `ActiveModel::Validations` directly;
+- **domain value** — represents accepted domain meaning and should not acquire form
+  lifecycle merely to borrow validation helpers.
+
+Do not make every validated Ruby object a form. Inheriting a form base is an ownership
+statement, not a shortcut for obtaining `errors` and `valid?`.
 
 
 ## Required Reading
@@ -157,6 +171,26 @@ end
 - Messages come from `I18n.t`.
 
 
+## Validation Shape
+
+Declare each validation rule where a reader can see it:
+
+```ruby
+validate :manifest_is_valid
+validate :documents_are_valid, if: -> { errors.empty? }
+```
+
+A custom validation method should represent one rule. Do not declare one
+`validate :validate_everything` callback that manually invokes a sequence of unrelated
+private validation methods; that recreates the validation framework procedurally and
+hides its gates.
+
+Reusable validators implement `validate(record)` and add errors to the record. Ordinary
+invalid input is not exception control flow. Rescue exceptions only at a boundary where
+a lower-level parser, filesystem, or external dependency has a genuine exceptional
+contract, and translate them into form errors there.
+
+
 ## Avoid
 
 - calling `save`/`update` — persistence belongs to the caller (e.g. a use case).
@@ -164,3 +198,6 @@ end
 - duplicating model validations the form does not own; validate what the *form* is
   responsible for (cross-field rules, existence of referenced records, payload shape).
 - hard-coded error message strings — use `I18n.t`.
+- inheriting a form base merely to obtain Active Model validations.
+- hiding several validation phases behind one procedural validation callback.
+- raising exceptions from validators for ordinary invalidity.
